@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: spring-boot-crud
+
+  config:
+    import: optional:file:./.env
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db
+    username: user
+    password: hackme
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  flyway:
+    enabled: true
+
+server:
+  servlet:
+    context-path: /v1/api
