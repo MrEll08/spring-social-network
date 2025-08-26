@@ -17,15 +17,15 @@ public class UserService {
     private final UserRepository users;
 
     @Transactional
-    public User create(String username, String password) {
-        if (users.existsByUsername(username)) {
+    public void create(CreateUserRequest request) {
+        if (users.existsByUsername(request.username())) {
             throw new IllegalArgumentException("Username already exists!");
         }
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(request.username());
+        user.setPassword(request.password());
 
-        return users.save(user);
+        users.save(user);
     }
 
     @Transactional(readOnly = true)
@@ -39,6 +39,10 @@ public class UserService {
             return Optional.empty();
         }
         return Optional.of(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return users.findByUsername(username);
     }
 
     public List<User> findAll() {

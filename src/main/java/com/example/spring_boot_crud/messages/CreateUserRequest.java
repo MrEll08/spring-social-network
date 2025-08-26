@@ -1,3 +1,9 @@
 package com.example.spring_boot_crud.messages;
 
-public record CreateUserRequest(String username, String password) {}
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record CreateUserRequest(
+        @NotBlank String username,
+        @NotBlank @Size(min=8) String password
+) {}
