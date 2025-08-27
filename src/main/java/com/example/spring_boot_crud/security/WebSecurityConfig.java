@@ -26,22 +26,17 @@ public class WebSecurityConfig {
     SecurityFilterChain http(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
-                .anyRequest().authenticated()
-        );
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/users/**").permitAll().anyRequest().authenticated());
 
-        http.addFilterBefore(
-            new JwtCookieAuthFilter(tokenService, cookies, users),
-            UsernamePasswordAuthenticationFilter.class
-        );
+        http.addFilterBefore(new JwtCookieAuthFilter(tokenService, cookies, users),
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(12);
-//    }
+    // @Bean
+    // PasswordEncoder passwordEncoder() {
+    // return new BCryptPasswordEncoder(12);
+    // }
 }

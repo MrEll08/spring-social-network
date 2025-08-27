@@ -31,11 +31,8 @@ public class AuthService {
         if (!user.getPassword().equals(request.password())) {
             return Optional.empty();
         }
-        return Optional.of(new LoginResponse(
-                tokenService.generateToken(user.getId(), user.getUsername()),
-                accessMin * 60,
-                UserMapper.toUserResponse(user)
-        ));
+        return Optional.of(new LoginResponse(tokenService.generateToken(user.getId(), user.getUsername()),
+                accessMin * 60, UserMapper.toUserResponse(user)));
     }
 
     @Transactional

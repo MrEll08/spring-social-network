@@ -35,17 +35,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return authService.login(request)
-            .map(resp -> ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE,
-                    cookies.buildAccessCookie(resp.accessToken(), resp.expiresInSeconds()).toString())
-                .body(resp))
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+                .map(resp -> ResponseEntity.ok()
+                        .header(HttpHeaders.SET_COOKIE,
+                                cookies.buildAccessCookie(resp.accessToken(), resp.expiresInSeconds()).toString())
+                        .body(resp))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout() {
-        return ResponseEntity.noContent()
-                .header(HttpHeaders.SET_COOKIE, cookies.clearAccessCookie().toString())
+        return ResponseEntity.noContent().header(HttpHeaders.SET_COOKIE, cookies.clearAccessCookie().toString())
                 .build();
     }
 }

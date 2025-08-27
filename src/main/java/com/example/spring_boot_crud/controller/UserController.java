@@ -21,19 +21,20 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> register(@Valid @RequestBody CreateUserRequest user) {
-//        String username = user.username();
-//        String password = user.password();
-//        if (isNotEmpty(username) && isNotEmpty(password)) {
-//            userService.create(username, password);
-//            return ResponseEntity.ok().build();
-//        }
-//        return ResponseEntity.badRequest().build();
-//    }
+    // @PostMapping
+    // public ResponseEntity<?> register(@Valid @RequestBody CreateUserRequest user)
+    // {
+    // String username = user.username();
+    // String password = user.password();
+    // if (isNotEmpty(username) && isNotEmpty(password)) {
+    // userService.create(username, password);
+    // return ResponseEntity.ok().build();
+    // }
+    // return ResponseEntity.badRequest().build();
+    // }
 
-//    @GetMapping
-//    public List<UserResponse> findAll() {
-//
-//    }
+    // @GetMapping
+    // public List<UserResponse> findAll() {
+    //
+    // }
 }

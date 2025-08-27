@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -43,9 +42,7 @@ public class JwtCookieAuthFilter extends OncePerRequestFilter {
                 var userId = tokenService.subjectUserId(token);
                 var userOpt = users.findById(userId);
                 if (userOpt.isPresent()) {
-                    var auth = new UsernamePasswordAuthenticationToken(
-                            userOpt.get().getId(), null, List.of()
-                    );
+                    var auth = new UsernamePasswordAuthenticationToken(userOpt.get().getId(), null, List.of());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             } catch (JwtException ignored) {

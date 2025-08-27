@@ -20,13 +20,11 @@ public class TokenService {
     public final String issuer;
     private final long accessTtlSec;
 
-    public TokenService(
-            @Value("${app.jwt.secret}") String secret,
-            @Value("${app.jwt.issuer}") String issuer,
-            @Value("${app.jwt.access-min}") long accessMin
-    ) {
+    public TokenService(@Value("${app.jwt.secret}") String secret, @Value("${app.jwt.issuer}") String issuer,
+            @Value("${app.jwt.access-min}") long accessMin) {
         byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
-        if (bytes.length < 32) throw new IllegalStateException("JWT secret must be ≥ 32 bytes");
+        if (bytes.length < 32)
+            throw new IllegalStateException("JWT secret must be ≥ 32 bytes");
         this.key = Keys.hmacShaKeyFor(bytes);
         this.issuer = issuer;
         this.accessTtlSec = accessMin * 60;
@@ -34,22 +32,13 @@ public class TokenService {
 
     public String generateToken(UUID userId, String username) {
         Instant now = Instant.now();
-        return Jwts.builder()
-                .issuer(issuer)
-                .subject(userId.toString())
-                .claim("username", username)
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(accessTtlSec)))
-                .signWith(key, Jwts.SIG.HS256)
-                .compact();
+        return Jwts.builder().issuer(issuer).subject(userId.toString()).claim("username", username)
+                .issuedAt(Date.from(now)).expiration(Date.from(now.plusSeconds(accessTtlSec)))
+                .signWith(key, Jwts.SIG.HS256).compact();
     }
 
     public Jws<Claims> parse(String jwt) throws JwtException {
-        return Jwts.parser()
-                .requireIssuer(issuer)
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(jwt);
+        return Jwts.parser().requireIssuer(issuer).verifyWith(key).build().parseSignedClaims(jwt);
     }
 
     public UUID subjectUserId(String jwt) {
